@@ -28,7 +28,6 @@ public class VendingMachine implements Machine{
         initCoins();
     }
 
-
     /**
      *
      * @param tenCentsCoins anzahl der 10 cent münzen
@@ -42,6 +41,7 @@ public class VendingMachine implements Machine{
                            int twoEuroCoins) {
         fillMachineWithCoins(tenCentsCoins, twentyCentsCoins, fiftyCentsCoins, oneEuroCoins, twoEuroCoins);
 
+        // coins werden in cents umgerechnet
         int coinValue = tenCentsCoins * 10 + twentyCentsCoins * 20 + fiftyCentsCoins * 50 + oneEuroCoins * 100 +
                 twoEuroCoins * 200;
         moneyReceived += coinValue;
@@ -85,6 +85,7 @@ public class VendingMachine implements Machine{
 
     @Override
     public boolean buy(Order order) {
+        // check ob dring überhaupt verfügbar ist
         if (availableDrinks.get(order.drink())) {
             this.order = order;
             int[] changeCoins = getChange();
@@ -128,6 +129,12 @@ public class VendingMachine implements Machine{
         this.twoEuro -= twoEuroCoins;
     }
 
+
+    /**
+     *
+     * @param locale hier entweder US oder GERMANY
+     * @return Preisliste als HashMap, preise in cents umgerechnet
+     */
     private HashMap<Drink, Integer> initPriceList(Locale locale){
         HashMap<Drink, Integer> map = new HashMap<>();
         if (locale.equals(Locale.US)){
@@ -153,6 +160,11 @@ public class VendingMachine implements Machine{
         twoEuro = 5;
     }
 
+
+    /**
+     *
+     * @return HashMap mit Drinks als Schlüssel und einen bool ob verfügbar oder nicht
+     */
     private HashMap<Drink, Boolean> initAvailableDrinks(){
         HashMap<Drink, Boolean> map = new HashMap<>();
         map.put(Drink.WASSER, true);
